@@ -5,64 +5,32 @@ import scala.math
 
 object SpatialQuery extends App{
   def st_contains_def(queryRectangle:String, pointString:String): Boolean  = {
+    if(queryRectangle == null || pointString == null || queryRectangle.isEmpty() || pointString.isEmpty())
+      return false
     var rect = queryRectangle.split(",")
-    var x1 = rect(0).toDouble
-    var y1 = rect(1).toDouble
-    var x2 = rect(2).toDouble
-    var y2 = rect(3).toDouble
+    var x1 = rect(0).trim.toDouble
+    var y1 = rect(1).trim.toDouble
+    var x2 = rect(2).trim.toDouble
+    var y2 = rect(3).trim.toDouble
 
     var point = pointString.split(",")
-    var p_x = point(0).toDouble
-    var p_y = point(1).toDouble
+    var p_x = point(0).trim.toDouble
+    var p_y = point(1).trim.toDouble
 
-    var result1:Boolean = true
-    if(x1<=x2)
-    {
-      if(p_x>=x1 && p_x<=x2){
-        result1 = result1 && true
-      }
-      else
-      {
-        result1 = false
-      }
-    }
-    else
-    {
-      if(p_x>=x2 && p_x<=x1){
-        result1 = result1 && true
-      }
-      else
-      {
-        result1 = false
-      }
-    }
+    var min_x = math.min(x1, x2)
+    var max_x = math.max(x1, x2)
+    var min_y = math.min(y1, y2)
+    var max_y = math.max(y1, y2)
 
-    var result2:Boolean = true
-
-    if(y1<=y2)
-    {
-      if(p_y>=y1 && p_y<=y2){
-        result2 = result2 && true
-      }
-      else
-      {
-        result2 = false
-      }
+    if(p_x >= min_x && p_x <= max_x && p_y >= min_y && p_y <= max_y){
+      return true
     }
-    else{
-      if(p_x>=y2 && p_x<=y1){
-        result2 = result2 && true
-      }
-      else
-      {
-        result2 = false
-      }
-    }
-
-    return result1 && result2
+    return false
   }
 
   def st_within_def(pointString1:String, pointString2:String, distance:Double): Boolean = {
+    if (pointString1 == null || pointString1.isEmpty() || pointString2 == null || pointString2.isEmpty() || distance <= 0.00)
+      return false
     var point1 = pointString1.split(",")
     var x1 = point1(0).toDouble
     var y1 = point1(1).toDouble
