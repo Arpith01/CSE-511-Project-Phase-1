@@ -74,6 +74,7 @@ object SparkSQLExample {
     }
     else if (queryName.equalsIgnoreCase("DistanceJoinQuery"))
     {
+      printf("The parameter is %s test",queryParam(3))
       if(queryParam.length!=3) throw new ArrayIndexOutOfBoundsException("[CSE512] Query "+queryName+" needs 3 parameters but you entered "+queryParam.length)
       queryResult = SpatialQuery.runDistanceJoinQuery(spark, queryParam(0), queryParam(1), queryParam(2))
     }
